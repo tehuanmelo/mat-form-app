@@ -1,3 +1,4 @@
+import { Trash2 } from "lucide-react";
 
 const COLORS = [
   { key: "blue", class: "bg-blue-500" },
@@ -32,10 +33,10 @@ function MatEntry({ index = 1, onRemove, onChange, entry }) {
 
           <button
             type="button"
-            className="btn btn-ghost btn-square text-error"
+            className="btn btn-ghost btn-error text-red-600"
             onClick={() => onRemove(entry.id)}
           >
-            🗑️
+            <Trash2 />
           </button>
         </div>
 

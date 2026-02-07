@@ -5,11 +5,11 @@ function useDataSubmit() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  async function submit({ psName, base }) {
-    const body = new URLSearchParams({
-      psName,
-      base,
-    });
+  async function submit(payload) {
+    // const body = new URLSearchParams({
+    //   psName,
+    //   base,
+    // });
 
     try {
       setLoading(true);
@@ -18,7 +18,8 @@ function useDataSubmit() {
 
       const res = await fetch(import.meta.env.VITE_SHEET_URL, {
         method: "POST",
-        body
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload),
       });
 
       const json = await res.json();
@@ -30,7 +31,7 @@ function useDataSubmit() {
     } catch (error) {
       console.log(error.message);
       setError(error.message);
-      throw error
+      throw error;
     } finally {
       setLoading(false);
     }

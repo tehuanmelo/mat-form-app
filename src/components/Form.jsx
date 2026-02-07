@@ -5,9 +5,12 @@ import toast from "react-hot-toast";
 import MatEntry from "./MatEntry.jsx";
 import SenderCard from "./SenderCard.jsx";
 import MatEntries from "./MatEntries.jsx";
+import PreviewCard from "./PreviewCard.jsx";
+import { Send } from "lucide-react";
 
 export default function Form() {
   const [data, setData] = useState({
+    email: "",
     psName: "",
     base: "",
   });
@@ -30,7 +33,7 @@ export default function Form() {
       pieces: 1,
     };
   };
-  const [mats, setMats] = useState([newMat()]);
+  const [mats, setMats] = useState([]);
 
   function removeMat(id) {
     setMats((prev) => prev.filter((item) => item.id !== id));
@@ -40,6 +43,10 @@ export default function Form() {
     setMats((prev) =>
       prev.map((item) => (item.id === id ? { ...item, ...patch } : item)),
     );
+  }
+
+  function addMatEntry() {
+    setMats(prev => [...prev, newMat()])
   }
 
   // ***********************************************
@@ -58,16 +65,15 @@ function validateForm() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      //   await submit(data);
-      const error = validateForm()
-      if (error) throw new Error(error)
-      const payload = {
+        const error = validateForm()
+        if (error) throw new Error(error)
+            const payload = {
         ...data,
         mats: [...mats]
-      }
-      console.log(payload);
-      setData({ psName: "", base: ""});
-      setMats([newMat()])
+    }
+      await submit(payload);
+      setData({ psName: "", base: "", email: ""});
+      setMats([])
       toast.success("Form submited.");
     } catch (error) {
       toast.error(error.message);
@@ -88,14 +94,16 @@ function validateForm() {
 
         <MatEntries
           mats={mats}
-          setMats={setMats}
+          addMatEntry={addMatEntry}
           newMat={newMat}
           removeMat={removeMat}
           addMat={addMat}
         />
 
-        <button className="btn btn-primary bg-sky-500 border-none">
-          {loading ? <span className="loading loading-spinner" /> : "Send"}
+        <PreviewCard data={data} mats={mats} />
+
+        <button className="py-6 btn btn-primary bg-sky-500 border-none text-lg">
+          {loading ? <span className="loading loading-spinner" /> : <span className="flex items-center gap-1"><Send />Submit</span>}
         </button>
       </form>
     </div>

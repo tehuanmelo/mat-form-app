@@ -1,7 +1,7 @@
 import MatEntry from "./MatEntry";
 import { CirclePlus } from "lucide-react";
 
-function MatEntries({ mats, setMats, newMat, removeMat, addMat }) {
+function MatEntries({ mats, addMatEntry, removeMat, addMat }) {
   return (
     <>
       {mats.map((mat, idx) => (
@@ -16,7 +16,7 @@ function MatEntries({ mats, setMats, newMat, removeMat, addMat }) {
       <button
         type="button"
         className="btn btn-dash btn-info py-6 text-xl border-2"
-        onClick={() => setMats((prev) => [...prev, newMat()])}
+        onClick={() => addMatEntry()}
       >
         <CirclePlus />
         ADD MAT
