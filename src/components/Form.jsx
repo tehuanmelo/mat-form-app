@@ -76,7 +76,7 @@ function validateForm() {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <div className="sticky text-black p-5 shadow-md flex justify-center items-center text-2xl font-semibold w-full">
+      <div className="sticky top-0 z-50 bg-white text-black p-5 shadow-md flex justify-center items-center text-2xl font-semibold w-full">
         Mat Information
       </div>
 
