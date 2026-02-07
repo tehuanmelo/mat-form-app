@@ -24,7 +24,7 @@ function useDataSubmit() {
 
       const json = await res.json();
 
-      if (!json.ok) throw new Error("Server returned error.");
+      if (!json.ok) throw new Error(json.error || "Server returned error.");
 
       setSuccess(true);
       return json;

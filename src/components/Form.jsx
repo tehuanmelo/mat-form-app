@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { coaches, bases } from "../constants.js";
 import useDataSubmit from "../hooks/useDataSubmit.js";
 import toast from "react-hot-toast";
 import MatEntry from "./MatEntry.jsx";
@@ -33,7 +32,7 @@ export default function Form() {
       pieces: 1,
     };
   };
-  const [mats, setMats] = useState([]);
+  const [mats, setMats] = useState([newMat()]);
 
   function removeMat(id) {
     setMats((prev) => prev.filter((item) => item.id !== id));
@@ -73,7 +72,7 @@ function validateForm() {
     }
       await submit(payload);
       setData({ psName: "", base: "", email: ""});
-      setMats([])
+      setMats([newMat()])
       toast.success("Form submited.");
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
@@ -83,8 +82,10 @@ function validateForm() {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <div className="sticky top-0 z-50 bg-white text-black p-5 shadow-md flex justify-center items-center text-2xl font-semibold w-full">
+      <div className="sticky top-0 z-50 bg-white text-black p-5 shadow-md flex items-center justify-center gap-4  text-2xl font-semibold w-full">
+        <img src="/favicon.png" alt="Logo" className="absolute left-10 size-12" />
         Mat Information
+
       </div>
 
       <form

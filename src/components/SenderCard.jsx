@@ -3,7 +3,7 @@ import { coaches, bases } from "../constants.js";
 function SenderCard({ onChange, data }) {
   return (
     <div className="p-5 bg-white shadow-md rounded-md border border-gray-300 text-gray-900 flex flex-col gap-4">
-      <div>
+      <div className="relative">
         <p className="mb-3 font-semibold text-sm">Email</p>
         <input
         className="input w-full rounded-md bg-gray-100 border border-gray-200"
@@ -13,6 +13,7 @@ function SenderCard({ onChange, data }) {
           value={data.email}
           onChange={onChange}
         />
+        <div className="absolute right-4 bottom-2 badge badge-sm badge-neutral">optional</div>
       </div>
 
       <div>
