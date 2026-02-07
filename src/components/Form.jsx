@@ -18,7 +18,7 @@ export default function Form() {
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setData((prev) => ({ ...prev, [name]: value}));
+    setData((prev) => ({ ...prev, [name]: value }));
   }
 
   // ***************  HANDLE MAT FUNCTIONS *****************
@@ -45,34 +45,35 @@ export default function Form() {
   }
 
   function addMatEntry() {
-    setMats(prev => [...prev, newMat()])
+    setMats((prev) => [...prev, newMat()]);
   }
 
   // ***********************************************
   // ***********************************************
 
-//   VALIDDATIONS **********
-function validateForm() {
-    if (!data.psName) return "Enter Ps and Name"
-    if (!data.base) return "Enter Base"
-    if (!mats.length) return "Enter at least one mat"
+  //   VALIDDATIONS **********
+  function validateForm() {
+    if (!data.psName) return "Enter Ps and Name";
+    if (!data.base) return "Enter Base";
+    if (!mats.length) return "Enter at least one mat";
     for (const mat of mats) {
-        if (mat.pieces <= 0) return "Enter at least one piece of mat"
+      if (mat.pieces <= 0) return "Enter at least one piece of mat";
     }
-}
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (loading) return;
     try {
-        const error = validateForm()
-        if (error) throw new Error(error)
-            const payload = {
+      const error = validateForm();
+      if (error) throw new Error(error);
+      const payload = {
         ...data,
-        mats: [...mats]
-    }
+        mats: [...mats],
+      };
       await submit(payload);
-      setData({ psName: "", base: "", email: ""});
-      setMats([newMat()])
+      setData({ psName: "", base: "", email: "" });
+      setMats([newMat()]);
       toast.success("Form submited.");
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
@@ -83,9 +84,12 @@ function validateForm() {
   return (
     <div className="w-full flex flex-col items-center">
       <div className="sticky top-0 z-50 bg-white text-black p-5 shadow-md flex items-center justify-center gap-4  text-2xl font-semibold w-full">
-        <img src="/favicon.png" alt="Logo" className="absolute left-10 size-12" />
+        <img
+          src="/favicon.png"
+          alt="Logo"
+          className="absolute left-10 size-12"
+        />
         Mat Information
-
       </div>
 
       <form
@@ -104,8 +108,18 @@ function validateForm() {
 
         <PreviewCard data={data} mats={mats} />
 
-        <button className="py-6 btn btn-primary bg-sky-500 border-none text-lg">
-          {loading ? <span className="loading loading-spinner" /> : <span className="flex items-center gap-1"><Send />Submit</span>}
+        <button
+          className="py-6 btn btn-primary bg-sky-500 border-none text-lg"
+          disabled={loading}
+        >
+          {loading ? (
+            <span className="loading loading-spinner" />
+          ) : (
+            <span className="flex items-center gap-1">
+              <Send />
+              Submit
+            </span>
+          )}
         </button>
       </form>
     </div>
