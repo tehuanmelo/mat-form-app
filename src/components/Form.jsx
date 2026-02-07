@@ -75,6 +75,7 @@ function validateForm() {
       setData({ psName: "", base: "", email: ""});
       setMats([])
       toast.success("Form submited.");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
       toast.error(error.message);
     }
