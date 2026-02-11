@@ -6,6 +6,9 @@ import SenderCard from "./SenderCard.jsx";
 import MatEntries from "./MatEntries.jsx";
 import PreviewCard from "./PreviewCard.jsx";
 import { Send } from "lucide-react";
+import TrainingAreas from "./TrainingAreas.jsx";
+import useArea from "../hooks/useArea.js";
+import useMat from "../hooks/useMat.js";
 
 export default function Form() {
   const [data, setData] = useState({
@@ -14,6 +17,9 @@ export default function Form() {
     base: "",
   });
 
+  const { newMat, mats, removeMat, addMat, addMatEntry } = useMat();
+  const { newArea, areas, removeArea, addArea, addAreaEntry } = useArea();
+
   const { submit, loading } = useDataSubmit();
 
   function handleChange(e) {
@@ -21,43 +27,28 @@ export default function Form() {
     setData((prev) => ({ ...prev, [name]: value }));
   }
 
-  // ***************  HANDLE MAT FUNCTIONS *****************
-  // ***********************************************
-
-  const newMat = () => {
-    return {
-      id: crypto.randomUUID(),
-      style: "plate",
-      color: "blue",
-      pieces: 1,
-    };
-  };
-  const [mats, setMats] = useState([newMat()]);
-
-  function removeMat(id) {
-    setMats((prev) => prev.filter((item) => item.id !== id));
-  }
-
-  function addMat(id, patch) {
-    setMats((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, ...patch } : item)),
-    );
-  }
-
-  function addMatEntry() {
-    setMats((prev) => [...prev, newMat()]);
-  }
-
-  // ***********************************************
-  // ***********************************************
-
   //   VALIDDATIONS **********
   function validateForm() {
+    function hasDuplicates(arr) {
+      const duplicates = new Set();
+      for (const { style, color } of arr) {
+        const key = `${style}:${color}`;
+        if (duplicates.has(key)) return true;
+        duplicates.add(key);
+      }
+      return false;
+    }
+
     if (!data.psName) return "Enter Ps and Name";
     if (!data.base) return "Enter Base";
     if (!mats.length) return "Enter at least one mat";
     for (const mat of mats) {
-      if (mat.pieces <= 0) return "Enter at least one piece of mat";
+      if (mat.pieces <= 0) return "You have mat pieces as 0";
+    }
+    if (hasDuplicates(mats)) return "You have duplicated mats";
+    if (!areas.length) return "Enter at least one area";
+    for (const area of areas) {
+      if (area.sizeX <= 0 || area.sizeY <= 0) return "Area Size cant be 0";
     }
   }
 
@@ -70,10 +61,12 @@ export default function Form() {
       const payload = {
         ...data,
         mats: [...mats],
+        areas: [...areas],
       };
-      await submit(payload);
-      setData({ psName: "", base: "", email: "" });
-      setMats([newMat()]);
+      console.log(payload);
+      // await submit(payload);
+      // setData({ psName: "", base: "", email: "" });
+      // setMats([newMat()]);
       toast.success("Form submited.");
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
@@ -83,15 +76,6 @@ export default function Form() {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <div className="sticky top-0 z-50 bg-white text-black p-5 shadow-md flex items-center justify-center gap-4  text-2xl font-semibold w-full">
-        <img
-          src="/favicon.png"
-          alt="Logo"
-          className="absolute left-10 size-12"
-        />
-        Mat Information
-      </div>
-
       <form
         onSubmit={handleSubmit}
         className="max-w-xl w-full flex flex-col gap-4 p-4"
@@ -106,10 +90,18 @@ export default function Form() {
           addMat={addMat}
         />
 
-        <PreviewCard data={data} mats={mats} />
+        <TrainingAreas
+          areas={areas}
+          addAreaEntry={addAreaEntry}
+          newArea={newArea}
+          removeArea={removeArea}
+          addArea={addArea}
+        />
 
+        <PreviewCard data={data} mats={mats} areas={areas} />
         <button
-          className="py-6 btn btn-primary bg-sky-500 border-none text-lg"
+          type="submit"
+          className="py-6 btn btn-primary bg-sky-500 border-none text-lg w-full"
           disabled={loading}
         >
           {loading ? (

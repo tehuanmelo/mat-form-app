@@ -6,10 +6,6 @@ function useDataSubmit() {
   const [success, setSuccess] = useState(false);
 
   async function submit(payload) {
-    // const body = new URLSearchParams({
-    //   psName,
-    //   base,
-    // });
 
     try {
       setLoading(true);

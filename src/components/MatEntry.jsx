@@ -22,8 +22,7 @@ function MatEntry({ index = 1, onRemove, onChange, entry }) {
   }
 
   return (
-    <div className="card bg-white shadow-md border border-gray-300 text-gray-900">
-      <div className="card-body space-y-6">
+      <div className="p-4 space-y-4 w-full border border-gray-300 rounded-lg">
         {/* HEADER */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3 text-sky-600">
@@ -71,22 +70,23 @@ function MatEntry({ index = 1, onRemove, onChange, entry }) {
         <div>
           <p className="text-md font-bold mb-3">Color Selection</p>
 
-          <div className="flex gap-4">
+          <div className="flex items-center gap-4">
             {COLORS.map((c) => (
               <button
                 key={c.key}
                 type="button"
                 onClick={() => onChange(entry.id, { color: c.key })}
-                className={`w-10 h-10 rounded-full border-4 ${c.class}
+                className={`w-10 h-10 rounded-full border-5 ${c.class}
                   ${color === c.key ? "border-black" : "border-transparent"}
                 `}
               />
             ))}
+            <div className="text-xl font-semibold">{color.toUpperCase()}</div>
           </div>
         </div>
 
         {/* PIECES + TOTAL */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 mb-3">
           <div>
             <p className="text-md font-bold mb-2">Pieces</p>
 
@@ -130,8 +130,9 @@ function MatEntry({ index = 1, onRemove, onChange, entry }) {
             </label>
           </div>
         </div>
+
+
       </div>
-    </div>
   );
 }
 

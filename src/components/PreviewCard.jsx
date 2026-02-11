@@ -3,15 +3,15 @@ function calcMatM2(mat) {
   return mat.pieces * factor;
 }
 
-export default function PreviewCard({ data, mats }) {
-  const show = data.psName && data.base && mats.length > 0;
+export default function PreviewCard({ data, mats, areas }) {
+  const show = data.psName && data.base && mats.length > 0 && areas.length > 0;
 
-  const totalM2 = mats.reduce((sum, m) => sum + calcMatM2(m), 0);
+  // const totalM2 = mats.reduce((sum, m) => sum + calcMatM2(m), 0);
 
   if (!show) return null;
 
   return (
-    <div className="bg-white border border-gray-200 shadow-md rounded-lg p-5">
+    <div className="bg-white border border-gray-200 shadow-md rounded-lg p-5 space-y-3">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-bold text-sky-500">Preview</h3>
@@ -20,31 +20,58 @@ export default function PreviewCard({ data, mats }) {
 
       {/* Sender */}
       <div className="bg-gray-50 border border-gray-200 rounded-md p-3 mb-4 text-black">
-        <div className="text-sm"><span className="font-semibold">PS:</span> {data.psName}</div>
-        <div className="text-sm"><span className="font-semibold">Base:</span> {data.base}</div>
-        <div className="text-sm"><span className="font-semibold">Email:</span> {data.email}</div>
+        <div className="text-sm">
+          <span className="font-semibold">PS:</span> {data.psName}
+        </div>
+        <div className="text-sm">
+          <span className="font-semibold">Base:</span> {data.base}
+        </div>
+        <div className="text-sm">
+          <span className="font-semibold">Email:</span> {data.email}
+        </div>
       </div>
 
       {/* Mats */}
-      <div className="space-y-2">
+      <div className="space-y-2 border border-gray-200 rounded-md p-3">
         {mats.map((m, idx) => (
-          <div key={m.id} className="flex items-center justify-between border border-gray-200 rounded-md p-3">
+          <div key={m.id} className="">
             <div className="text-sm">
               <div className="font-semibold text-sky-500">Mat #{idx + 1}</div>
-              <div className="opacity-70 text-black">
-                {m.style} • {m.color} • {m.pieces} pcs
+              <div className="flex items-center justify-between gap-20 w-full">
+                <div className="opacity-70 text-black">
+                  {m.style} • {m.color} • {m.pieces} pcs
+                </div>
+                <div className="text-sm text-black font-bold px-4">
+                  {calcMatM2(m)} m²
+                </div>
               </div>
             </div>
-
-            <div className="text-sm font-bold">{calcMatM2(m)} m²</div>
           </div>
         ))}
       </div>
 
-      {/* Footer */}
-      <div className="mt-4 pt-4 border-t border-gray-200 flex items-center justify-between text-black">
+      {/* Mats */}
+      <div className="space-y-2 border border-gray-200 rounded-md p-3">
+        {areas.map((a, idx) => (
+          <div key={a.id} className="">
+            <div className="text-sm">
+              <div className="font-semibold text-sky-500">Area #{idx + 1}</div>
+              <div className="flex items-center justify-between gap-20">
+                <div className="opacity-70 text-black">
+                  {a.sizeX} X {a.sizeY}
+                </div>
+                <div className="text-sm text-black font-bold px-4">
+                  {a.sizeX * a.sizeY} m²
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+
+        {/* <div className="p-2 mt-4 border-t border-gray-200 flex items-center justify-between text-black">
         <div className="text-sm opacity-70">{mats.length} mat(s)</div>
         <div className="text-lg font-bold">Total: {totalM2} m²</div>
+      </div> */}
       </div>
     </div>
   );
