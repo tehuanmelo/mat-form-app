@@ -20,13 +20,14 @@ export default function Form() {
 
   const { newMat, mats, removeMat, addMat, addMatEntry } = useMat();
   const { newArea, areas, removeArea, addArea, addAreaEntry } = useArea();
-  const { error, validateForm } = useError()
+  const { error, validateForm, cleanError } = useError()
 
   const { submit, loading } = useDataSubmit();
 
   function handleChange(e) {
     const { name, value } = e.target;
     setData((prev) => ({ ...prev, [name]: value }));
+    cleanError()
   }
 
   
@@ -67,6 +68,8 @@ export default function Form() {
           newMat={newMat}
           removeMat={removeMat}
           addMat={addMat}
+          error={error}
+          cleanError={cleanError}
         />
 
         <TrainingAreas
@@ -75,6 +78,8 @@ export default function Form() {
           newArea={newArea}
           removeArea={removeArea}
           addArea={addArea}
+          error={error}
+          cleanError={cleanError}
         />
 
         <PreviewCard data={data} mats={mats} areas={areas} />
