@@ -13,8 +13,8 @@ function SenderCard({ onChange, data, error }) {
 
   return (
     <div className="p-5 bg-white shadow-md rounded-md border border-gray-300 text-gray-900 flex flex-col gap-4">
-      <div className="relative">
-        <p className="mb-3 font-semibold text-sm">Email</p>
+      <div>
+        <p className="mb-3 font-semibold text-sm">Email <span className="text-red-500">*</span></p>
         <input
           className={`input w-full rounded-md bg-gray-100 border border-gray-200 ${error.email ? "bg-red-300 border border-red-500" : ""}`}
           placeholder="example@email.com"
@@ -24,9 +24,6 @@ function SenderCard({ onChange, data, error }) {
           onChange={onChange}
           ref={emailRef}
         />
-        <div className="absolute right-4 bottom-2 badge badge-sm badge-neutral">
-          optional
-        </div>
       </div>
 
       <div>
