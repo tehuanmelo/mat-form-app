@@ -53,13 +53,12 @@ function useError() {
     return hasErrorString || hasErrorObject
   }
 
-  function cleanError() {
-    setError({
-      email: "",
-      psName: "",
-      base: "",
-      mats: "",
-    });
+  function cleanError(error) {
+    if (error == "pieces") {
+      setError(prev => ({...prev, [error]: {}}));
+
+    }
+    setError(prev => ({...prev, [error]: ""}));
   }
 
   return { error, validateForm, cleanError };

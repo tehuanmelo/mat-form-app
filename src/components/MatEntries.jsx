@@ -41,7 +41,7 @@ function MatEntries({
         className="btn btn-dash btn-info py-6 text-xl border-2 w-full"
         onClick={() => {
           addMatEntry();
-          cleanError();
+          cleanError("mats");
         }}
       >
         <CirclePlus />

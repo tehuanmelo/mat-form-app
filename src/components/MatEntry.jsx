@@ -108,7 +108,7 @@ function MatEntry({ index = 1, onRemove, onChange, entry, error, cleanError }) {
                 onChange(entry.id, {
                   pieces: Math.max(0, pieces - 1),
                 });
-                cleanError();
+                cleanError("pieces");
               }}
             >
               −
@@ -125,7 +125,7 @@ function MatEntry({ index = 1, onRemove, onChange, entry, error, cleanError }) {
                 onChange(entry.id, {
                   pieces: pieces + 1,
                 });
-                cleanError();
+                cleanError("pieces");
               }}
               ref={piecesRef}
             >

@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { coaches, bases } from "../constants.js";
 import ErrorAlert from "./ErrorAlert.jsx";
 
-function SenderCard({ onChange, data, error }) {
+function SenderCard({ onChange, data, error, cleanError }) {
   const emailRef = useRef(null);
   const psNameRef = useRef(null);
   const baseRef = useRef(null);
@@ -31,7 +31,10 @@ function SenderCard({ onChange, data, error }) {
           type="text"
           name="email"
           value={data.email}
-          onChange={onChange}
+          onChange={(e) => {
+            onChange(e)
+            cleanError("email")
+          }}
           ref={emailRef}
         />
       </div>
@@ -44,7 +47,10 @@ function SenderCard({ onChange, data, error }) {
         <select
           name="psName"
           value={data.psName}
-          onChange={onChange}
+          onChange={(e) => {
+            onChange(e)
+            cleanError("psName")
+          }}
           className={`select select-bordered w-full bg-gray-100 rounded-md border border-gray-200`}
           ref={psNameRef}
         >
@@ -68,7 +74,10 @@ function SenderCard({ onChange, data, error }) {
         <select
           name="base"
           value={data.base}
-          onChange={onChange}
+          onChange={(e) => {
+            onChange(e)
+            cleanError("base")
+          }}
           className={`select select-bordered w-full bg-gray-100 rounded-md border border-gray-200`}
           ref={baseRef}
         >

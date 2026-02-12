@@ -27,7 +27,6 @@ export default function Form() {
   function handleChange(e) {
     const { name, value } = e.target;
     setData((prev) => ({ ...prev, [name]: value }));
-    cleanError()
   }
 
   
@@ -60,7 +59,7 @@ export default function Form() {
         onSubmit={handleSubmit}
         className="max-w-xl w-full flex flex-col gap-4 p-4"
       >
-        <SenderCard onChange={handleChange} data={data} error={error} />
+        <SenderCard onChange={handleChange} data={data} error={error} cleanError={cleanError} />
 
         <MatEntries
           mats={mats}
