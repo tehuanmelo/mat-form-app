@@ -9,6 +9,7 @@ import { Send } from "lucide-react";
 import TrainingAreas from "./TrainingAreas.jsx";
 import useArea from "../hooks/useArea.js";
 import useMat from "../hooks/useMat.js";
+import useError from "../hooks/useError.js";
 
 export default function Form() {
   const [data, setData] = useState({
@@ -19,6 +20,7 @@ export default function Form() {
 
   const { newMat, mats, removeMat, addMat, addMatEntry } = useMat();
   const { newArea, areas, removeArea, addArea, addAreaEntry } = useArea();
+  const { error, validateForm } = useError()
 
   const { submit, loading } = useDataSubmit();
 
@@ -27,37 +29,14 @@ export default function Form() {
     setData((prev) => ({ ...prev, [name]: value }));
   }
 
-  //   VALIDDATIONS **********
-  function validateForm() {
-    function hasDuplicates(arr) {
-      const duplicates = new Set();
-      for (const { style, color } of arr) {
-        const key = `${style}:${color}`;
-        if (duplicates.has(key)) return true;
-        duplicates.add(key);
-      }
-      return false;
-    }
-
-    if (!data.psName) return "Enter Ps and Name";
-    if (!data.base) return "Enter Base";
-    if (!mats.length) return "Enter at least one mat";
-    for (const mat of mats) {
-      if (mat.pieces <= 0) return "You have mat pieces as 0";
-    }
-    if (hasDuplicates(mats)) return "You have duplicated mats";
-    if (!areas.length) return "Enter at least one area";
-    for (const area of areas) {
-      if (area.sizeX <= 0 || area.sizeY <= 0) return "Area Size cant be 0";
-    }
-  }
+  
 
   async function handleSubmit(e) {
     e.preventDefault();
     if (loading) return;
     try {
-      const error = validateForm();
-      if (error) throw new Error(error);
+      const hasError = validateForm(data, mats, areas);
+      if (hasError) return
       const payload = {
         ...data,
         mats: [...mats],
@@ -80,7 +59,7 @@ export default function Form() {
         onSubmit={handleSubmit}
         className="max-w-xl w-full flex flex-col gap-4 p-4"
       >
-        <SenderCard onChange={handleChange} data={data} />
+        <SenderCard onChange={handleChange} data={data} error={error} />
 
         <MatEntries
           mats={mats}
