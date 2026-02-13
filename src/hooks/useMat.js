@@ -26,7 +26,11 @@ function useMat() {
     setMats((prev) => [...prev, newMat()]);
   }
 
-  return {newMat, mats, removeMat, addMat, addMatEntry}
+  function cleanMatForm() {
+    setMats([newMat()])
+  }
+
+  return {newMat, mats, removeMat, addMat, addMatEntry, cleanMatForm}
 }
 
 export default useMat;

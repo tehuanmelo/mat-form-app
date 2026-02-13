@@ -14,7 +14,7 @@ function MatEntries({
   const matsRef = useRef(null);
 
   useEffect(() => {
-    if (error.mats) {
+    if (error.mats || error.duplicates) {
       matsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, [error]);
@@ -48,6 +48,7 @@ function MatEntries({
         ADD MAT
       </button>
       {error.mats && <ErrorAlert msg={error.mats} />}
+      {error.duplicates && <ErrorAlert msg={error.duplicates} />}
     </div>
   );
 }

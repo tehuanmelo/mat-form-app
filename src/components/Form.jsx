@@ -18,8 +18,8 @@ export default function Form() {
     base: "",
   });
 
-  const { newMat, mats, removeMat, addMat, addMatEntry } = useMat();
-  const { newArea, areas, removeArea, addArea, addAreaEntry } = useArea();
+  const { newMat, mats, removeMat, addMat, addMatEntry, cleanMatForm } = useMat();
+  const { newArea, areas, removeArea, addArea, addAreaEntry, cleanAreaForm } = useArea();
   const { error, validateForm, cleanError } = useError()
 
   const { submit, loading } = useDataSubmit();
@@ -43,9 +43,10 @@ export default function Form() {
         areas: [...areas],
       };
       console.log(payload);
-      // await submit(payload);
-      // setData({ psName: "", base: "", email: "" });
-      // setMats([newMat()]);
+      await submit(payload);
+      setData({ psName: "", base: "", email: "" });
+      cleanMatForm()
+      cleanAreaForm()
       toast.success("Form submited.");
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {

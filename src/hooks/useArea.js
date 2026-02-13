@@ -24,7 +24,11 @@ function useArea() {
     setAreas((prev) => [...prev, newArea()]);
   }
 
-  return { areas, removeArea, addArea, addAreaEntry}
+  function cleanAreaForm() {
+    setAreas([newArea()])
+  }
+
+  return { areas, removeArea, addArea, addAreaEntry, cleanAreaForm}
 }
 
 export default useArea;

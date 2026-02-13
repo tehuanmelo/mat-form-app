@@ -15,13 +15,16 @@ function MatEntry({ index = 1, onRemove, onChange, entry, error, cleanError }) {
   const color = entry.color;
   const pieces = entry.pieces;
 
-  const piecesRef = useRef(null)
+  const piecesRef = useRef(null);
 
   useEffect(() => {
     if (error.pieces?.[entry.id]) {
-      piecesRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      piecesRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
     }
-  }, [error])
+  }, [error]);
 
   // exemplo simples de cálculo
 
@@ -59,7 +62,10 @@ function MatEntry({ index = 1, onRemove, onChange, entry, error, cleanError }) {
             className={`btn join-item w-1/2 ${
               style === "plate" ? "bg-white text-black" : "btn-ghost"
             }`}
-            onClick={() => onChange(entry.id, { style: "plate" })}
+            onClick={() => {
+              onChange(entry.id, { style: "plate" });
+              cleanError("duplicates");
+            }}
           >
             Plates
           </button>
@@ -69,7 +75,10 @@ function MatEntry({ index = 1, onRemove, onChange, entry, error, cleanError }) {
             className={`btn join-item w-1/2 ${
               style === "roll" ? "bg-white text-black" : "btn-ghost"
             }`}
-            onClick={() => onChange(entry.id, { style: "roll" })}
+            onClick={() => {
+              onChange(entry.id, { style: "roll" });
+              cleanError("duplicates");
+            }}
           >
             Rolls
           </button>
@@ -85,7 +94,10 @@ function MatEntry({ index = 1, onRemove, onChange, entry, error, cleanError }) {
             <button
               key={c.key}
               type="button"
-              onClick={() => onChange(entry.id, { color: c.key })}
+              onClick={() => {
+                onChange(entry.id, { color: c.key });
+                cleanError("duplicates");
+              }}
               className={`w-10 h-10 rounded-full border-5 ${c.class}
                   ${color === c.key ? "border-black" : "border-transparent"}
                 `}
